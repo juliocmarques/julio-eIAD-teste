@@ -1,0 +1,40 @@
+{
+  "name": "e_IAD_synapse_ds_incoming_tax_payer_files",
+  "properties": {
+    "annotations": [],
+    "linkedServiceName": {
+      "referenceName": "adls_storage",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "input_container_name": {
+        "type": "string"
+      },
+      "input_folder_name": {
+        "type": "string"
+      },
+      "taxpayer_profile_file_name": {
+        "type": "string"
+      }
+    },
+    "type": "Binary",
+    "typeProperties": {
+      "location": {
+        "fileName": {
+          "type": "Expression",
+          "value": "@dataset().taxpayer_profile_file_name"
+        },
+        "fileSystem": {
+          "type": "Expression",
+          "value": "@dataset().input_container_name"
+        },
+        "folderPath": {
+          "type": "Expression",
+          "value": "@concat(if(equals(dataset().input_folder_name,''),'',concat(dataset().input_folder_name,'/')),'taxpayer')"
+        },
+        "type": "AzureBlobFSLocation"
+      }
+    }
+  },
+  "type": "Microsoft.Synapse/workspaces/datasets"
+}

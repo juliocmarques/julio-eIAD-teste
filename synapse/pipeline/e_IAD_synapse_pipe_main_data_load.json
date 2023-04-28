@@ -1,0 +1,1847 @@
+{
+  "name": "e_IAD_synapse_pipe_main_data_load",
+  "properties": {
+    "activities": [
+      {
+        "dependsOn": [
+          {
+            "activity": "Set exchange rate file path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set input_tax_payer_profile_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set input_invoice_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set output_container_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set batch_id",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@guid()"
+          },
+          "variableName": "batch_id"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set output_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set statistics path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('output_path'),'/statistics/')"
+          },
+          "variableName": "statistics_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [],
+        "name": "Set exchange rate file path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat('abfss://',pipeline().parameters.input_container_name,'@',pipeline().parameters.storage_account,if(equals(pipeline().parameters.input_folder_name, ''),'',concat('/', pipeline().parameters.input_folder_name)),'/exchange_rate/',pipeline().parameters.exchange_rates_file_name)"
+          },
+          "variableName": "exchange_rates_full_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set working_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set invoice_uncompressed_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('working_path'),'/data_engineering/invoice/uncompressed/')"
+          },
+          "variableName": "invoice_uncompressed_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set working_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set invoice_schema_applied_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('working_path'),'/data_engineering/invoice/schema_applied/')"
+          },
+          "variableName": "invoice_schema_applied_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set working_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set invoice_cleaned_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('working_path'),'/data_engineering/invoice/cleaned/')"
+          },
+          "variableName": "invoice_cleaned_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [],
+        "name": "Set input_tax_payer_profile_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat('abfss://', pipeline().parameters.input_container_name, '@',pipeline().parameters.storage_account,if(equals(pipeline().parameters.input_folder_name, ''),'',concat('/', pipeline().parameters.input_folder_name)),'/taxpayer/')"
+          },
+          "variableName": "input_tax_payer_profile_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [],
+        "name": "Set input_invoice_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat('abfss://', pipeline().parameters.input_container_name, '@',pipeline().parameters.storage_account,if(equals(pipeline().parameters.input_folder_name, ''),'',concat('/', pipeline().parameters.input_folder_name)),'/invoice/')"
+          },
+          "variableName": "input_invoice_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set working_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set taxpayer_profile_uncompressed_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('working_path'),'/data_engineering/taxpayer/uncompressed/')"
+          },
+          "variableName": "taxpayer_profile_uncompressed_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set working_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set taxpayer_profile_schema_applied_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('working_path'),'/data_engineering/taxpayer/schema_applied/')"
+          },
+          "variableName": "taxpayer_profile_schema_applied_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set working_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set taxpayer_profile_cleaned_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('working_path'),'/data_engineering/taxpayer/cleaned/')"
+          },
+          "variableName": "taxpayer_profile_cleaned_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Clean the tax payer profile",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Clean the datasets",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Execute Data Science Pipeline",
+        "type": "ExecutePipeline",
+        "typeProperties": {
+          "parameters": {
+            "allowed_null_pct": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.allowed_null_pct"
+            },
+            "batch_id": {
+              "type": "Expression",
+              "value": "@variables('batch_id')"
+            },
+            "best_iforest_path": {
+              "type": "Expression",
+              "value": "@variables('best_iforest_path')"
+            },
+            "date_feat": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.date_feat"
+            },
+            "depth_of_supply_chain_max_iter": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.depth_of_supply_chain_max_iter"
+            },
+            "edge_path": {
+              "type": "Expression",
+              "value": "@variables('edge_path')"
+            },
+            "features_path": {
+              "type": "Expression",
+              "value": "@variables('features_path')"
+            },
+            "first_year": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.first_year"
+            },
+            "heatmap_path": {
+              "type": "Expression",
+              "value": "@variables('heatmap_path')"
+            },
+            "iFor_data_prefix": {
+              "type": "Expression",
+              "value": "@variables('iFor_data_prefix')"
+            },
+            "id_feat": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.id_feat"
+            },
+            "id_feat_types": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.id_feat_types"
+            },
+            "interpret_path": {
+              "type": "Expression",
+              "value": "@variables('interpret_path')"
+            },
+            "invoice_cleaned_path": {
+              "type": "Expression",
+              "value": "@variables('invoice_cleaned_path')"
+            },
+            "model_path": {
+              "type": "Expression",
+              "value": "@variables('model_path')"
+            },
+            "number_of_interpret_features": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.number_of_interpret_features"
+            },
+            "output_container_path": {
+              "type": "Expression",
+              "value": "@concat('abfss://',pipeline().parameters.output_container_name,'@',pipeline().parameters.storage_account)"
+            },
+            "overhead_data_path": {
+              "type": "Expression",
+              "value": "@variables('overhead_data_path')"
+            },
+            "overhead_results_prefix": {
+              "type": "Expression",
+              "value": "@variables('overhead_results_prefix')"
+            },
+            "overhead_size": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.overhead_size"
+            },
+            "page_rank_path": {
+              "type": "Expression",
+              "value": "@variables('page_rank_path')"
+            },
+            "prepped_data_path": {
+              "type": "Expression",
+              "value": "@variables('prepped_data_path')"
+            },
+            "results_path": {
+              "type": "Expression",
+              "value": "@variables('results_path')"
+            },
+            "score_threshold": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.score_threshold"
+            },
+            "seed": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.seed"
+            },
+            "subsample_list": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.subsample_list"
+            },
+            "taxpayer_profile_cleaned_path": {
+              "type": "Expression",
+              "value": "@variables('taxpayer_profile_cleaned_path')"
+            },
+            "time_slice_list": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.time_slice_list"
+            },
+            "train_size": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.train_size"
+            },
+            "transformed_data_path": {
+              "type": "Expression",
+              "value": "@variables('transformed_data_path')"
+            },
+            "trees_list": {
+              "type": "Expression",
+              "value": "@pipeline().parameters.trees_list"
+            }
+          },
+          "pipeline": {
+            "referenceName": "e_IAD_main_data_science_pipe",
+            "type": "PipelineReference"
+          },
+          "waitOnCompletion": true
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set output_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set edge_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('output_path'),'/edges')"
+          },
+          "variableName": "edge_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set working_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set page_rank_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('working_path'),'/feature_engineering/pagerank')"
+          },
+          "variableName": "page_rank_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set model_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set best_iforest_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('model_path'),'/best_iforest')"
+          },
+          "variableName": "best_iforest_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set anomaly_detection_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set features_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('anomaly_detection_path'),'/features')"
+          },
+          "variableName": "features_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set anomaly_detection_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set iFor_data_prefix",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('anomaly_detection_path'),'/iFor')"
+          },
+          "variableName": "iFor_data_prefix"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set batch_id",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set model_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat('abfss://',pipeline().parameters.model_container_name,'@',pipeline().parameters.storage_account,'/', variables('batch_id'))"
+          },
+          "variableName": "model_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set anomaly_detection_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set overhead_data_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('anomaly_detection_path'),'/overhead_data')"
+          },
+          "variableName": "overhead_data_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set working_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set anomaly_detection_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('working_path'),'/anomaly_detection')"
+          },
+          "variableName": "anomaly_detection_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set batch_id",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set working_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat('abfss://',pipeline().parameters.working_container_name,'@',pipeline().parameters.storage_account,'/', variables('batch_id'))"
+          },
+          "variableName": "working_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set batch_id",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set output_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat('abfss://',pipeline().parameters.output_container_name,'@',pipeline().parameters.storage_account,'/', variables('batch_id'))"
+          },
+          "variableName": "output_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set anomaly_detection_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set prepped_data_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('anomaly_detection_path'),'/prepped_data')"
+          },
+          "variableName": "prepped_data_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set output_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set transformed_data_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('output_path'),'/transformed_data')"
+          },
+          "variableName": "transformed_data_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set output_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set results_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('output_path'),'/results')"
+          },
+          "variableName": "results_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set anomaly_detection_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set overhead_results_prefix",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('anomaly_detection_path'),'/iFor_results')"
+          },
+          "variableName": "overhead_results_prefix"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set output_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set interpret_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('output_path'),'/iJungle_output')"
+          },
+          "variableName": "interpret_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set output_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Set heatmap_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat(variables('output_path'),'/heatmap_path')"
+          },
+          "variableName": "heatmap_path"
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Calculate statistitcs about loaded data",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "description": "This task calculates the Data Quality Index",
+        "name": "Calculate Data Quality",
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false,
+          "timeout": "7.00:00:00"
+        },
+        "type": "SynapseNotebook",
+        "typeProperties": {
+          "conf": {
+            "spark.dynamicAllocation.enabled": null,
+            "spark.dynamicAllocation.maxExecutors": null,
+            "spark.dynamicAllocation.minExecutors": null
+          },
+          "notebook": {
+            "referenceName": "2_1_e-IAD_nb_load_calculate_data_QI_v1",
+            "type": "NotebookReference"
+          },
+          "numExecutors": null,
+          "parameters": {
+            "batch_id": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('batch_id')"
+              }
+            },
+            "data_encoding": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_encoding"
+              }
+            },
+            "data_quality_max_date": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_quality_max_eval_date"
+              }
+            },
+            "data_quality_min_date": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_quality_min_eval_date"
+              }
+            },
+            "data_separator": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_separator"
+              }
+            },
+            "invoice_schema_applied_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('invoice_schema_applied_path')"
+              }
+            },
+            "statistics_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('statistics_path')"
+              }
+            },
+            "taxpayer_profile_schema_applied_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('taxpayer_profile_schema_applied_path')"
+              }
+            }
+          }
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Calculate Data Quality",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Clean the datasets",
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false,
+          "timeout": "7.00:00:00"
+        },
+        "type": "SynapseNotebook",
+        "typeProperties": {
+          "conf": {
+            "spark.dynamicAllocation.enabled": null,
+            "spark.dynamicAllocation.maxExecutors": null,
+            "spark.dynamicAllocation.minExecutors": null
+          },
+          "notebook": {
+            "referenceName": "3_1_e-IAD_nb_load_data_cleaning_v1",
+            "type": "NotebookReference"
+          },
+          "numExecutors": null,
+          "parameters": {
+            "batch_id": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('batch_id')"
+              }
+            },
+            "data_encoding": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_encoding"
+              }
+            },
+            "data_separator": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_separator"
+              }
+            },
+            "drop_records_threshold": {
+              "type": "float",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.drop_records_threshold"
+              }
+            },
+            "exchange_rates_file": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('exchange_rates_full_path')"
+              }
+            },
+            "invoice_cleaned_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('invoice_cleaned_path')"
+              }
+            },
+            "invoice_schema_applied_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('invoice_schema_applied_path')"
+              }
+            },
+            "local_currency_iso_code": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.local_currency_iso_code"
+              }
+            },
+            "statistics_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('statistics_path')"
+              }
+            }
+          }
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Calculate Data Quality",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Clean the tax payer profile",
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false,
+          "timeout": "7.00:00:00"
+        },
+        "type": "SynapseNotebook",
+        "typeProperties": {
+          "conf": {
+            "spark.dynamicAllocation.enabled": null,
+            "spark.dynamicAllocation.maxExecutors": null,
+            "spark.dynamicAllocation.minExecutors": null
+          },
+          "notebook": {
+            "referenceName": "3_2_e-IAD_nb_load_taxpayer_profile_cleaning_v1",
+            "type": "NotebookReference"
+          },
+          "numExecutors": null,
+          "parameters": {
+            "batch_id": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('batch_id')"
+              }
+            },
+            "data_encoding": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_encoding"
+              }
+            },
+            "data_separator": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_separator"
+              }
+            },
+            "statistics_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('statistics_path')"
+              }
+            },
+            "taxpayer_profile_cleaned_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('taxpayer_profile_cleaned_path')"
+              }
+            },
+            "taxpayer_profile_schema_applied_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('taxpayer_profile_schema_applied_path')"
+              }
+            }
+          }
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set features_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set iFor_data_prefix",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set overhead_data_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set prepped_data_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set overhead_results_prefix",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set invoice_uncompressed_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set invoice_schema_applied_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set invoice_cleaned_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set taxpayer_profile_uncompressed_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set taxpayer_profile_schema_applied_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set taxpayer_profile_cleaned_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set page_rank_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set best_iforest_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set statistics path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set edge_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set transformed_data_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set results_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set interpret_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set heatmap_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "inputs": [
+          {
+            "parameters": {
+              "input_container_name": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.input_container_name"
+              },
+              "input_folder_name": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.input_folder_name"
+              },
+              "taxpayer_profile_file_name": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.taxpayer_profile_file_name"
+              }
+            },
+            "referenceName": "e_IAD_synapse_ds_incoming_tax_payer_files",
+            "type": "DatasetReference"
+          }
+        ],
+        "name": "Copy tax payer profile from input to uncompress folder",
+        "outputs": [
+          {
+            "parameters": {
+              "batch_id": {
+                "type": "Expression",
+                "value": "@variables('batch_id')"
+              },
+              "working_container_name": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.working_container_name"
+              }
+            },
+            "referenceName": "e_IAD_synapse_ds_tax_payer_file_uncompressed",
+            "type": "DatasetReference"
+          }
+        ],
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false,
+          "timeout": "7.00:00:00"
+        },
+        "type": "Copy",
+        "typeProperties": {
+          "enableStaging": false,
+          "sink": {
+            "storeSettings": {
+              "type": "AzureBlobFSWriteSettings"
+            },
+            "type": "BinarySink"
+          },
+          "source": {
+            "formatSettings": {
+              "type": "BinaryReadSettings"
+            },
+            "storeSettings": {
+              "recursive": true,
+              "type": "AzureBlobFSReadSettings"
+            },
+            "type": "BinarySource"
+          }
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Set features_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set iFor_data_prefix",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set overhead_data_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set prepped_data_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set overhead_results_prefix",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set invoice_uncompressed_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set invoice_schema_applied_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set invoice_cleaned_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set taxpayer_profile_uncompressed_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set taxpayer_profile_schema_applied_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set taxpayer_profile_cleaned_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set page_rank_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set best_iforest_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set statistics path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set edge_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set transformed_data_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set results_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set interpret_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Set heatmap_path",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "Get List of Invoice zip files",
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false,
+          "timeout": "7.00:00:00"
+        },
+        "type": "GetMetadata",
+        "typeProperties": {
+          "dataset": {
+            "parameters": {
+              "input_container_name": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.input_container_name"
+              },
+              "input_folder_name": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.input_folder_name"
+              }
+            },
+            "referenceName": "e_IAD_synapse_ds_compressed_files_dest_raw",
+            "type": "DatasetReference"
+          },
+          "fieldList": [
+            "childItems"
+          ],
+          "formatSettings": {
+            "type": "BinaryReadSettings"
+          },
+          "storeSettings": {
+            "enablePartitionDiscovery": false,
+            "recursive": true,
+            "type": "AzureBlobFSReadSettings"
+          }
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Get List of Invoice zip files",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "name": "ForEach through Invoice zip files",
+        "type": "ForEach",
+        "typeProperties": {
+          "activities": [
+            {
+              "dependsOn": [],
+              "inputs": [
+                {
+                  "parameters": {
+                    "ZipFileName": {
+                      "type": "Expression",
+                      "value": "@item().name"
+                    },
+                    "input_container_name": {
+                      "type": "Expression",
+                      "value": "@pipeline().parameters.input_container_name"
+                    },
+                    "input_folder_name": {
+                      "type": "Expression",
+                      "value": "@pipeline().parameters.input_folder_name"
+                    }
+                  },
+                  "referenceName": "e_IAD_synapse_ds_invoice_compressed",
+                  "type": "DatasetReference"
+                }
+              ],
+              "name": "decompress incoming invoice files",
+              "outputs": [
+                {
+                  "parameters": {
+                    "batch_id": {
+                      "type": "Expression",
+                      "value": "@variables('batch_id')"
+                    },
+                    "working_container_name": {
+                      "type": "Expression",
+                      "value": "@pipeline().parameters.working_container_name"
+                    }
+                  },
+                  "referenceName": "e_IAD_synapse_ds_invoice_uncompressed",
+                  "type": "DatasetReference"
+                }
+              ],
+              "policy": {
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false,
+                "timeout": "7.00:00:00"
+              },
+              "type": "Copy",
+              "typeProperties": {
+                "enableStaging": false,
+                "sink": {
+                  "storeSettings": {
+                    "type": "AzureBlobFSWriteSettings"
+                  },
+                  "type": "BinarySink"
+                },
+                "source": {
+                  "formatSettings": {
+                    "compressionProperties": {
+                      "type": "ZipDeflateReadSettings"
+                    },
+                    "type": "BinaryReadSettings"
+                  },
+                  "storeSettings": {
+                    "recursive": true,
+                    "type": "AzureBlobFSReadSettings"
+                  },
+                  "type": "BinarySource"
+                }
+              },
+              "userProperties": []
+            }
+          ],
+          "isSequential": true,
+          "items": {
+            "type": "Expression",
+            "value": "@activity('Get List of Invoice zip files').output.childItems"
+          }
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "ForEach through Invoice zip files",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "description": "This task takes the input files and generates new files using the standard schema",
+        "name": "Apply invoice standard schema",
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false,
+          "timeout": "7.00:00:00"
+        },
+        "type": "SynapseNotebook",
+        "typeProperties": {
+          "conf": {
+            "spark.dynamicAllocation.enabled": null,
+            "spark.dynamicAllocation.maxExecutors": null,
+            "spark.dynamicAllocation.minExecutors": null
+          },
+          "notebook": {
+            "referenceName": "1_1_e-IAD_nb_load_apply_standard_schema_v1",
+            "type": "NotebookReference"
+          },
+          "numExecutors": null,
+          "parameters": {
+            "batch_id": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('batch_id')"
+              }
+            },
+            "data_encoding": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_encoding"
+              }
+            },
+            "data_separator": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_separator"
+              }
+            },
+            "invoice_schema_applied_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('invoice_schema_applied_path')"
+              }
+            },
+            "invoice_uncompressed_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('invoice_uncompressed_path')"
+              }
+            },
+            "output_container_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('output_container_path')"
+              }
+            },
+            "statistics_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('statistics_path')"
+              }
+            }
+          }
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Copy tax payer profile from input to uncompress folder",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "description": "This task takes the input files and generates new files using the standard schema",
+        "name": "Apply taxpayer standard schema",
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false,
+          "timeout": "7.00:00:00"
+        },
+        "type": "SynapseNotebook",
+        "typeProperties": {
+          "conf": {
+            "spark.dynamicAllocation.enabled": null,
+            "spark.dynamicAllocation.maxExecutors": null,
+            "spark.dynamicAllocation.minExecutors": null
+          },
+          "notebook": {
+            "referenceName": "1_2_e-IAD_nb_load_apply_tax_payer_profile_standard_schema_v1",
+            "type": "NotebookReference"
+          },
+          "numExecutors": null,
+          "parameters": {
+            "batch_id": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('batch_id')"
+              }
+            },
+            "data_encoding": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_encoding"
+              }
+            },
+            "data_separator": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_separator"
+              }
+            },
+            "statistics_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('statistics_path')"
+              }
+            },
+            "taxpayer_profile_schema_applied_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('taxpayer_profile_schema_applied_path')"
+              }
+            },
+            "taxpayer_profile_uncompressed_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('taxpayer_profile_uncompressed_path')"
+              }
+            }
+          }
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [
+          {
+            "activity": "Apply invoice standard schema",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Apply taxpayer standard schema",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "description": "This task calculates basic statistics about the loaded data",
+        "name": "Calculate statistitcs about loaded data",
+        "policy": {
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false,
+          "timeout": "7.00:00:00"
+        },
+        "type": "SynapseNotebook",
+        "typeProperties": {
+          "conf": {
+            "spark.dynamicAllocation.enabled": null,
+            "spark.dynamicAllocation.maxExecutors": null,
+            "spark.dynamicAllocation.minExecutors": null
+          },
+          "notebook": {
+            "referenceName": "1_3_e-IAD_nb_uploaded_data_statistics_v1",
+            "type": "NotebookReference"
+          },
+          "numExecutors": null,
+          "parameters": {
+            "batch_id": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('batch_id')"
+              }
+            },
+            "data_encoding": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_encoding"
+              }
+            },
+            "data_separator": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@pipeline().parameters.data_separator"
+              }
+            },
+            "invoice_schema_applied_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('invoice_schema_applied_path')"
+              }
+            },
+            "statistics_path": {
+              "type": "string",
+              "value": {
+                "type": "Expression",
+                "value": "@variables('statistics_path')"
+              }
+            }
+          }
+        },
+        "userProperties": []
+      },
+      {
+        "dependsOn": [],
+        "name": "Set output_container_path",
+        "type": "SetVariable",
+        "typeProperties": {
+          "value": {
+            "type": "Expression",
+            "value": "@concat('abfss://',pipeline().parameters.output_container_name,'@',pipeline().parameters.storage_account)"
+          },
+          "variableName": "output_container_path"
+        },
+        "userProperties": []
+      }
+    ],
+    "annotations": [],
+    "description": "This is main pipeline for data loading flow, it calls a pipeline for each of the steps of data loading.",
+    "parameters": {
+      "allowed_null_pct": {
+        "defaultValue": "0.051",
+        "type": "string"
+      },
+      "data_encoding": {
+        "defaultValue": "latin-1",
+        "type": "string"
+      },
+      "data_quality_max_eval_date": {
+        "defaultValue": "31-12-2021",
+        "type": "string"
+      },
+      "data_quality_min_eval_date": {
+        "defaultValue": "01-01-2021",
+        "type": "string"
+      },
+      "data_separator": {
+        "defaultValue": ",",
+        "type": "string"
+      },
+      "date_feat": {
+        "defaultValue": "issued_date",
+        "type": "string"
+      },
+      "depth_of_supply_chain_max_iter": {
+        "defaultValue": 10,
+        "type": "int"
+      },
+      "drop_records_threshold": {
+        "defaultValue": 0.01,
+        "type": "float"
+      },
+      "exchange_rates_file_name": {
+        "defaultValue": "exchange_rates.csv",
+        "type": "string"
+      },
+      "first_year": {
+        "defaultValue": "1950",
+        "type": "string"
+      },
+      "id_feat": {
+        "defaultValue": "issuer_id_indexed,issued_date",
+        "type": "string"
+      },
+      "id_feat_types": {
+        "defaultValue": "int,timestamp",
+        "type": "string"
+      },
+      "input_container_name": {
+        "defaultValue": "input",
+        "type": "string"
+      },
+      "input_folder_name": {
+        "type": "string"
+      },
+      "local_currency_iso_code": {
+        "defaultValue": "EUR",
+        "type": "string"
+      },
+      "model_container_name": {
+        "defaultValue": "model",
+        "type": "string"
+      },
+      "number_of_interpret_features": {
+        "defaultValue": "10",
+        "type": "string"
+      },
+      "output_container_name": {
+        "defaultValue": "output",
+        "type": "string"
+      },
+      "overhead_size": {
+        "defaultValue": "0.001",
+        "type": "string"
+      },
+      "score_threshold": {
+        "defaultValue": "-0.75",
+        "type": "string"
+      },
+      "seed": {
+        "defaultValue": "42",
+        "type": "string"
+      },
+      "storage_account": {
+        "defaultValue": "<<STORAGE_ACCOUNT_NAME>>.dfs.core.windows.net",
+        "type": "string"
+      },
+      "subsample_list": {
+        "defaultValue": "4096,2048,1024,512",
+        "type": "string"
+      },
+      "taxpayer_profile_file_name": {
+        "defaultValue": "tax_payer_profile.csv",
+        "type": "string"
+      },
+      "time_slice_list": {
+        "defaultValue": "by_day,by_week,by_month,by_quarter,by_year",
+        "type": "string"
+      },
+      "train_size": {
+        "defaultValue": "0.001",
+        "type": "string"
+      },
+      "trees_list": {
+        "defaultValue": "500,100,20,10",
+        "type": "string"
+      },
+      "working_container_name": {
+        "defaultValue": "working",
+        "type": "string"
+      }
+    },
+    "policy": {
+      "cancelAfter": {},
+      "elapsedTimeMetric": {}
+    },
+    "variables": {
+      "anomaly_detection_path": {
+        "type": "String"
+      },
+      "batch_id": {
+        "type": "String"
+      },
+      "best_iforest_path": {
+        "type": "String"
+      },
+      "edge_path": {
+        "type": "String"
+      },
+      "exchange_rates_full_path": {
+        "type": "String"
+      },
+      "features_path": {
+        "type": "String"
+      },
+      "heatmap_path": {
+        "type": "String"
+      },
+      "iFor_data_prefix": {
+        "type": "String"
+      },
+      "input_invoice_path": {
+        "type": "String"
+      },
+      "input_tax_payer_profile_path": {
+        "type": "String"
+      },
+      "interpret_path": {
+        "type": "String"
+      },
+      "invoice_cleaned_path": {
+        "type": "String"
+      },
+      "invoice_schema_applied_path": {
+        "type": "String"
+      },
+      "invoice_uncompressed_path": {
+        "type": "String"
+      },
+      "model_path": {
+        "type": "String"
+      },
+      "output_container_path": {
+        "type": "String"
+      },
+      "output_path": {
+        "type": "String"
+      },
+      "overhead_data_path": {
+        "type": "String"
+      },
+      "overhead_results_prefix": {
+        "type": "String"
+      },
+      "page_rank_path": {
+        "type": "String"
+      },
+      "prepped_data_path": {
+        "type": "String"
+      },
+      "results_path": {
+        "type": "String"
+      },
+      "statistics_path": {
+        "type": "String"
+      },
+      "taxpayer_profile_cleaned_path": {
+        "type": "String"
+      },
+      "taxpayer_profile_schema_applied_path": {
+        "type": "String"
+      },
+      "taxpayer_profile_uncompressed_path": {
+        "type": "String"
+      },
+      "transformed_data_path": {
+        "type": "String"
+      },
+      "working_path": {
+        "type": "String"
+      }
+    }
+  },
+  "type": "Microsoft.Synapse/workspaces/pipelines"
+}

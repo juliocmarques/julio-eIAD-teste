@@ -1,0 +1,33 @@
+{
+  "name": "e_IAD_synapse_ds_tax_payer_file_uncompressed",
+  "properties": {
+    "annotations": [],
+    "linkedServiceName": {
+      "referenceName": "adls_storage",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "batch_id": {
+        "type": "string"
+      },
+      "working_container_name": {
+        "type": "string"
+      }
+    },
+    "type": "Binary",
+    "typeProperties": {
+      "location": {
+        "fileSystem": {
+          "type": "Expression",
+          "value": "@dataset().working_container_name"
+        },
+        "folderPath": {
+          "type": "Expression",
+          "value": "@concat(dataset().batch_id,'/data_engineering/taxpayer/uncompressed')"
+        },
+        "type": "AzureBlobFSLocation"
+      }
+    }
+  },
+  "type": "Microsoft.Synapse/workspaces/datasets"
+}

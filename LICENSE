@@ -1,0 +1,130 @@
+# License
+
+Copyright © 2022, Microsoft Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "**Software**"), to deal in the Software without restriction other than those set forth below, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. BY ACCESSING THE SOFTWARE, YOU ACKNOWLEDGE THAT THE SOFTWARE IS DESIGNED TO IDENTIFY ANOMALIES WITHIN DATASETS AND NEITHER THE SOFTWARE NOR MICROSOFT MAKE ANY VALUE JUDGMENTS AS TO THE CONTENT OR MEANING OF SUCH ANOMALIES OR WHETHER ANY SUCH ANOMALY COULD OR DOES CONSTITUTE A VIOLATION OF APPLICABLE LAWS, RULES, OR REGULATIONS. BY ACCESSING THE SOFTWARE, YOU ACKNOWLEDGE THE SOFTWARE IS NOT SUBJECT TO SOC 1 AND SOC 2 COMPLIANCE AUDITS. NO MICROSOFT TECHNOLOGY, NOR ANY OF ITS COMPONENT TECHNOLOGIES, INCLUDING THE SOFTWARE, IS INTENDED OR MADE AVAILABLE AS A SUBSTITUTE FOR PROFESSIONAL ADVICE, OPINION, OR JUDGMENT OF A CERTIFIED FINANCIAL SERVICES PROFESSIONAL. DO NOT USE THE SOFTWARE TO REPLACE, SUBSTITUTE, OR PROVIDE PROFESSIONAL FINANCIAL ADVICE OR JUDGMENT.
+
+The Software includes third-party components which are governed by an open-source license as identified in Exhibit A, and you must comply with the terms of each applicable license.
+
+You acknowledge that access to this private repository is by invitation only and restricted to the countries identified in Exhibit B, which may be amended from time to time (collectively, "**Approved Countries**"). By accessing this private repository, you represent and warrant that you (and the entity or entities, including affiliates) that you represent (i) will not access or use the Software outside of the Approved Countries; (ii) will not distribute, sublicense and/or sell copies of the Software to anyone outside of the Approved Countries; (iii) will not share any personal data or personal information under any applicable data protection law or regulation relating to privacy, security and data protection ("**Personal Data**") in connection with your or your affiliates’ use of the Software; (iv) will not use the Software for purposes of processing biometric information or in connection with any information that constitutes Personal Data, including for identifying or verifying individuals; and (v) will not use or enable any third party to use the Software in connection with the electronic invoicing data of individuals, and will only use the Software in connection with business-to-business data.
+
+You must also comply with all domestic and international export laws and regulations that apply to the Software, which include restrictions on destinations, end users, and end use. For further information on export restrictions, visit <https://aka.ms/exporting>.
+
+## Exhibit A: Open-Source Components
+
+Open Source Libraries, Packages, and Containers
+
+Name | URL | License
+---|---|---
+opencensus-ext-azure | <https://pypi.org/project/opencensus-ext-azure/> | [Apache 2.0](https://github.com/census-instrumentation/opencensus-python/blob/master/LICENSE)
+opencensus-ext-logging | <https://pypi.org/project/opencensus-ext-logging/> | [Apache 2.0](https://github.com/census-instrumentation/opencensus-python/blob/master/LICENSE)
+pandas | <https://pypi.org/project/pandas/> | [BSD 3-Clause](https://github.com/pandas-dev/pandas/blob/main/LICENSE)
+numpy | <https://pypi.org/project/numpy/> | [BSD 3-Clause](https://numpy.org/doc/stable/numpy-user.pdf)
+scikit-learn | <https://pypi.org/project/scikit-learn/> | [BSD 3-Clause](https://github.com/scikit-learn/scikit-learn/blob/main/COPYING)
+joblib | <https://pypi.org/project/joblib/> | [BSD 3-Clause](https://github.com/joblib/joblib/blob/master/LICENSE.txt)
+scipy | <https://pypi.org/project/scipy/> | [BSD 3-Clause](https://github.com/scipy/scipy/blob/main/LICENSE.txt)
+networkx | <https://pypi.org/project/networkx/> | [BSD 3-Clause](https://github.com/networkx/networkx/blob/main/LICENSE.txt)
+shap | <https://pypi.org/project/shap/> | [MIT](https://github.com/slundberg/shap/blob/master/LICENSE)
+azure-storage-file-datalake | <https://pypi.org/project/azure-storage-file-datalake/> | [MIT](https://github.com/Azure/azure-sdk-for-python/blob/main/LICENSE)
+tabulate | <https://pypi.org/project/tabulate/> | [MIT](https://github.com/astanin/python-tabulate/blob/master/LICENSE)
+azure-synapse-artifacts | <https://pypi.org/project/azure-synapse-artifacts/> | [MIT](https://github.com/Azure/azure-sdk-for-python/blob/main/LICENSE)
+azure-identity | <https://pypi.org/project/azure-identity/> | [MIT](https://github.com/Azure/azure-sdk-for-python/blob/main/LICENSE)
+azure-cli-core | <https://pypi.org/project/azure-cli-core/> | [MIT](https://github.com/Azure/azure-cli/blob/main/LICENSE)
+azure-cli | <https://pypi.org/project/azure-cli/> | [MIT](https://github.com/Azure/azure-cli/blob/dev/LICENSE)
+pyodbc | <https://pypi.org/project/pyodbc/> | [MIT](https://github.com/mkleehammer/pyodbc/blob/master/LICENSE.txt)
+pytz | <https://pypi.org/project/pytz/> | [MIT](https://pytz.sourceforge.net/#license)
+jsonschema | <https://pypi.org/project/jsonschema/> | [MIT](https://github.com/python-jsonschema/jsonschema/blob/main/COPYING)
+deepdiff | <https://pypi.org/project/deepdiff/> | [MIT](https://github.com/seperman/deepdiff/blob/master/LICENSE)
+genson | <https://pypi.org/project/genson/> | [MIT](https://github.com/wolverdude/GenSON/blob/master/LICENSE)
+iJungle | <https://github.com/microsoft/dstoolkit-anomaly-detection-ijungle> | [MIT](https://github.com/microsoft/dstoolkit-anomaly-detection-ijungle/blob/main/LICENSE)
+H20 | <https://pypi.org/project/h2o/> | [Apache](https://github.com/h2oai/h2o-3/blob/master/LICENSE)
+
+## Exhibit B: Approved Countries
+
+- Albania
+- Angola
+- Argentina
+- Armenia
+- Aruba
+- Australia
+- Austria
+- Azerbaijan
+- Barbados
+- Belgium
+- Belize
+- Bermuda
+- Bolivia
+- Bosnia and Herzegovina
+- Brazil
+- Bulgaria
+- Canada
+- Chile
+- Colombia
+- Costa Rica
+- Croatia
+- Curacao
+- Cyprus
+- Czech Republic
+- Denmark
+- Dominican Republic
+- Ecuador
+- El Salvador
+- Estonia
+- Finland
+- France
+- Georgia
+- Germany
+- Greece
+- Guatemala
+- Guyana
+- Haiti
+- Honduras
+- Hungary
+- India
+- Ireland
+- Italy
+- Japan
+- Jamaica
+- Kazakhstan
+- Kenya
+- Latvia
+- Lithuania
+- Luxembourg
+- Malaysia
+- Malta
+- Mexico
+- Moldova
+- Montenegro
+- Morocco
+- Netherlands
+- New Zealand
+- Nicaragua
+- Nigeria
+- North Macedonia
+- Norway
+- Panama
+- Paraguay
+- Peru
+- Philippines
+- Poland
+- Portugal
+- Romania
+- Serbia
+- Singapore
+- Sint Maarten
+- Slovakia
+- Slovenia
+- Spain
+- Suriname
+- Sweden
+- Switzerland
+- Trinidad and Tobago
+- Ukraine
+- United Kingdom
+- United States of America
+- Uruguay
+- Venezuela

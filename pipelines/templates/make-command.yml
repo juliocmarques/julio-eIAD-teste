@@ -1,0 +1,38 @@
+parameters:
+- name: makeCommand
+  displayName: 'The make command to run'
+  type: string
+- name: displayName
+  displayName: 'The display name of the step'
+  type: string
+- name: force
+  displayName: 'Whether to force the step to run'
+  type: boolean
+  default: false
+  
+steps:
+- bash: |
+    set -e
+    docker run --rm \
+      --env-file '$(Build.SourcesDirectory)/pipelines/devcontainer-ci.env' \
+      --mount "type=bind,src=$(Build.SourcesDirectory),dst=/workspaces/eiad" \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      --workdir /workspaces/eiad \
+      --user vscode \
+      'eiad-devcontainer:$(Build.BuildId)' \
+      bash -c -i "make ${{ parameters.makeCommand }}"
+  displayName: ${{ parameters.displayName }}
+  condition: or(succeeded(), eq('${{ parameters.force }}', 'true'))
+  env:
+    TF_BACKEND_RESOURCE_GROUP: $(TF_BACKEND_RESOURCE_GROUP)
+    TF_BACKEND_STORAGE_ACCOUNT: $(TF_BACKEND_STORAGE_ACCOUNT)
+    TF_BACKEND_CONTAINER: $(TF_BACKEND_CONTAINER)
+    TF_BACKEND_ACCESS_KEY: $(TF_BACKEND_ACCESS_KEY)
+    ARM_CLIENT_ID: $(CLIENT_ID)
+    ARM_CLIENT_SECRET: $(CLIENT_SECRET)
+    ARM_TENANT_ID: $(TENANT_ID)
+    ARM_SUBSCRIPTION_ID: $(SUBSCRIPTION_ID)
+    TF_VAR_resource_group_contributors: $(RESOURCE_GROUP_CONTRIBUTORS)
+    
+    BUILD_BUILDID: $(Build.BuildId)
+    BUILD_BUILDNUMBER: $(Build.BuildNumber)

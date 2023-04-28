@@ -1,0 +1,11 @@
+azure-storage-file-datalake == 12.5.0
+tabulate == 0.8.9
+azure-synapse-artifacts == 0.10.0
+azure-identity == 1.7.1
+azure-cli-core
+azure-cli
+pytz == 2021.3
+jsonschema == 4.2.1
+jsondiff == 1.3.0
+deepdiff==5.7.0 # Used interactively to diff input/output objects manually 
+genson==1.2.2 # Helper for generating json schema

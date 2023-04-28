@@ -1,0 +1,44 @@
+{
+  "name": "e_IAD_synapse_ds_invoice_compressed",
+  "properties": {
+    "annotations": [],
+    "linkedServiceName": {
+      "referenceName": "adls_storage",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "ZipFileName": {
+        "type": "string"
+      },
+      "input_container_name": {
+        "type": "string"
+      },
+      "input_folder_name": {
+        "type": "string"
+      }
+    },
+    "type": "Binary",
+    "typeProperties": {
+      "compression": {
+        "level": "Fastest",
+        "type": "ZipDeflate"
+      },
+      "location": {
+        "fileName": {
+          "type": "Expression",
+          "value": "@dataset().ZipFileName"
+        },
+        "fileSystem": {
+          "type": "Expression",
+          "value": "@dataset().input_container_name"
+        },
+        "folderPath": {
+          "type": "Expression",
+          "value": "@concat(if(equals(dataset().input_folder_name,''),'',concat(dataset().input_folder_name,'/')),'invoice')"
+        },
+        "type": "AzureBlobFSLocation"
+      }
+    }
+  },
+  "type": "Microsoft.Synapse/workspaces/datasets"
+}
